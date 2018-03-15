@@ -1,14 +1,11 @@
 # Simple Bitcoin JSON-RPC client based on GuzzleHttp
 
-[![Join the chat at https://gitter.im/php-bitcoinrpc/Lobby](https://badges.gitter.im/php-bitcoinrpc/Lobby.svg)](https://gitter.im/php-bitcoinrpc/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
-[![Latest Stable Version](https://poser.pugx.org/denpa/php-bitcoinrpc/v/stable)](https://packagist.org/packages/denpa/php-bitcoinrpc) [![License](https://poser.pugx.org/denpa/php-bitcoinrpc/license)](https://packagist.org/packages/denpa/php-bitcoinrpc) [![Build Status](https://travis-ci.org/denpamusic/php-bitcoinrpc.svg)](https://travis-ci.org/denpamusic/php-bitcoinrpc) [![Code Climate](https://codeclimate.com/github/denpamusic/php-bitcoinrpc/badges/gpa.svg)](https://codeclimate.com/github/denpamusic/php-bitcoinrpc) <a href="https://codeclimate.com/github/denpamusic/php-bitcoinrpc/coverage"><img src="https://codeclimate.com/github/denpamusic/php-bitcoinrpc/badges/coverage.svg" /></a> [![Dependency Status](https://www.versioneye.com/user/projects/58833bfce25f5900365362cf/badge.svg?style=rounded)](https://www.versioneye.com/user/projects/58833bfce25f5900365362cf)
 
 ## Installation
-Run ```php composer.phar require denpa/php-bitcoinrpc``` in your project directory or add following lines to composer.json
+Run ```php composer.phar require znycloud/php-bitzenyrpc``` in your project directory or add following lines to composer.json
 ```javascript
 "require": {
-    "znycloud/php-bitcoinrpc": "^2.0"
+    "znycloud/php-bitzenyrpc": "^2.0"
 }
 ```
 and run ```php composer.phar update```.
@@ -19,9 +16,9 @@ PHP 7.0 or higher (should also work on 5.6, but this is unsupported)
 ## Usage
 Create new object with url as parameter
 ```php
-use znycloud\BitZeny\Client as BitcoinClient;
+use znycloud\BitZeny\Client as BitZenyClient;
 
-$bitzenyd = new BitZenyClient('http://rpcuser:rpcpassword@localhost:8332/');
+$bitzenyd = new BitZenyClient('http://rpcuser:rpcpassword@localhost:9253/');
 ```
 or use array to define your bitcoind settings
 ```php
@@ -30,7 +27,7 @@ use Denpa\Bitcoin\Client as BitcoinClient;
 $bitzenyd = new BitZenyClient([
     'scheme' => 'http',                 // optional, default http
     'host'   => 'localhost',            // optional, default localhost
-    'port'   => 8332,                   // optional, default 8332
+    'port'   => 9253,                   // optional, default 9253
     'user'   => 'rpcuser',              // required
     'pass'   => 'rpcpassword',          // required
     'ca'     => '/etc/ssl/ca-cert.pem'  // optional, for use with https scheme
