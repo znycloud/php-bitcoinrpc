@@ -1,6 +1,6 @@
 <?php
 
-namespace znycloud\Bitcoin;
+namespace znycloud\BitZeny;
 
 use GuzzleHttp\Client as GuzzleHttp;
 use GuzzleHttp\ClientInterface;
