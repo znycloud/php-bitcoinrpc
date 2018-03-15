@@ -1,13 +1,13 @@
 <?php
 
-namespace Denpa\Bitcoin\Exceptions;
+namespace Denpa\BitZeny\Exceptions;
 
 use RuntimeException;
 
-class BitcoindException extends RuntimeException
+class BitZenydException extends RuntimeException
 {
     /**
-     * Construct new bitcoind exception.
+     * Construct new bitzenyd exception.
      *
      * @param object $error
      *
