@@ -1,4 +1,4 @@
-# Simple Bitcoin JSON-RPC client based on GuzzleHttp
+# Simple BitZeny JSON-RPC client based on GuzzleHttp
 
 
 ## Installation
