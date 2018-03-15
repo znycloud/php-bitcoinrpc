@@ -1,6 +1,6 @@
 <?php
 
-namespace Denpa\Bitcoin;
+namespace znycloud\BitZeny;
 
 trait SerializableContainerTrait
 {
