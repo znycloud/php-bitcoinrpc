@@ -1,10 +1,10 @@
 <?php
 
-namespace Denpa\Bitcoin;
+namespace znycloud\BitZeny;
 
 use Psr\Http\Message\ResponseInterface;
 
-class BitcoindResponse implements
+class BitZenydResponse implements
     ResponseInterface,
     \ArrayAccess,
     \Countable,
