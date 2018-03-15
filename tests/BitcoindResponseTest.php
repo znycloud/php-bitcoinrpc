@@ -1,10 +1,10 @@
 <?php
 
-use Denpa\Bitcoin;
-use Denpa\Bitcoin\Exceptions;
+use znycloud\BitZeny;
+use znycloud\BitZeny\Exceptions;
 use GuzzleHttp\Psr7\BufferStream;
 
-class BitcoindResponseTest extends TestCase
+class BitZenydResponseTest extends TestCase
 {
     /**
      * Set up test.
