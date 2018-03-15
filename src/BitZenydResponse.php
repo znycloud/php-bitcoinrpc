@@ -160,7 +160,7 @@ class BitZenydResponse implements
      *
      * @param \Psr\Http\Message\ResponseInterface $response
      *
-     * @return \Denpa\Bitcoin\BitcoindResponse
+     * @return \Denpa\BitZeny\BitZenydResponse
      */
     public static function createFrom(ResponseInterface $response)
     {
