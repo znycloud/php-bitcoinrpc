@@ -1,7 +1,7 @@
 <?php
 
-use Denpa\Bitcoin;
-use Denpa\Bitcoin\Exceptions;
+use znycloud\BitZeny;
+use znycloud\BitZeny\Exceptions;
 use GuzzleHttp\Psr7\Response;
 
 class ClientTest extends TestCase
@@ -15,7 +15,7 @@ class ClientTest extends TestCase
     {
         parent::setUp();
 
-        $this->bitcoind = new Bitcoin\Client();
+        $this->bitzenyd = new BitZeny\Client();
     }
 
     /**
@@ -34,9 +34,9 @@ class ClientTest extends TestCase
      */
     public function testUrlParser($url, $scheme, $host, $port, $user, $pass)
     {
-        $bitcoind = new Bitcoin\Client($url);
+        $bitzenyd = new BitZeny\Client($url);
 
-        $this->assertInstanceOf(Bitcoin\Client::class, $bitcoind);
+        $this->assertInstanceOf(BitZeny\Client::class, $bitcoind);
 
         $base_uri = $bitcoind->getConfig('base_uri');
 
@@ -44,7 +44,7 @@ class ClientTest extends TestCase
         $this->assertEquals($base_uri->getHost(), $host);
         $this->assertEquals($base_uri->getPort(), $port);
 
-        $auth = $bitcoind->getConfig('auth');
+        $auth = $bitzenyd->getConfig('auth');
         $this->assertEquals($auth[0], $user);
         $this->assertEquals($auth[1], $pass);
     }
@@ -74,7 +74,7 @@ class ClientTest extends TestCase
     public function testUrlParserWithInvalidUrl()
     {
         try {
-            $bitcoind = new Bitcoin\Client('cookies!');
+            $bitzenyd = new BitZeny\Client('cookies!');
 
             $this->expectException(Exceptions\ClientException::class);
         } catch (Exceptions\ClientException $e) {
@@ -89,8 +89,8 @@ class ClientTest extends TestCase
      */
     public function testClientSetterGetter()
     {
-        $bitcoind = new Bitcoin\Client('http://old_client.org');
-        $this->assertInstanceOf(Bitcoin\Client::class, $bitcoind);
+        $bitzenyd = new BitZeny\Client('http://old_client.org');
+        $this->assertInstanceOf(BitZeny\Client::class, $bitcoind);
 
         $base_uri = $bitcoind->getConfig('base_uri');
         $this->assertEquals($base_uri->getHost(), 'old_client.org');
@@ -99,7 +99,7 @@ class ClientTest extends TestCase
         $this->assertInstanceOf(\GuzzleHttp\Client::class, $oldClient);
 
         $newClient = new \GuzzleHttp\Client(['base_uri' => 'http://new_client.org']);
-        $bitcoind->setClient($newClient);
+        $bitzenyd->setClient($newClient);
 
         $base_uri = $bitcoind->getConfig('base_uri');
         $this->assertEquals($base_uri->getHost(), 'new_client.org');
@@ -112,11 +112,11 @@ class ClientTest extends TestCase
      */
     public function testCaOption()
     {
-        $bitcoind = new Bitcoin\Client();
+        $bitzenyd = new BitZeny\Client();
 
         $this->assertEquals(null, $bitcoind->getConfig('ca'));
 
-        $bitcoind = new Bitcoin\Client([
+        $bitzenyd = new BitZeny\Client([
             'ca' => __FILE__,
         ]);
 
@@ -161,7 +161,7 @@ class ClientTest extends TestCase
             }),
         ]);
 
-        $promise = $this->bitcoind
+        $promise = $this->bitzenyd
             ->setClient($guzzle)
             ->requestAsync(
                 'getblockheader',
@@ -211,7 +211,7 @@ class ClientTest extends TestCase
             }),
         ]);
 
-        $promise = $this->bitcoind
+        $promise = $this->bitzenyd
             ->setClient($guzzle)
             ->getBlockHeaderAsync(
                 '000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f',
@@ -235,7 +235,7 @@ class ClientTest extends TestCase
         ]);
 
         try {
-            $response = $this->bitcoind
+            $response = $this->bitzenyd
                 ->setClient($guzzle)
                 ->getRawTransaction(
                     '4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b'
@@ -260,13 +260,13 @@ class ClientTest extends TestCase
         ]);
 
         $onFulfilled = $this->mockCallable([
-            $this->callback(function (Exceptions\BitcoindException $exception) {
+            $this->callback(function (Exceptions\BitZenydException $exception) {
                 return $exception->getMessage() == self::$rawTransactionError['message'] &&
                     $exception->getCode() == self::$rawTransactionError['code'];
             }),
         ]);
 
-        $promise = $this->bitcoind
+        $promise = $this->bitzenyd
             ->setClient($guzzle)
             ->requestAsync(
                 'getrawtransaction',
@@ -298,7 +298,7 @@ class ClientTest extends TestCase
                 );
 
             $this->expectException(Exceptions\BitcoindException::class);
-        } catch (Exceptions\BitcoindException $exception) {
+        } catch (Exceptions\BitZenydException $exception) {
             $this->assertEquals(
                 self::$rawTransactionError['message'],
                 $exception->getMessage()
