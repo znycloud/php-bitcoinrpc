@@ -1,6 +1,6 @@
 <?php
 
-use Denpa\Bitcoin;
+use znycloud\BitZeny;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Response;
