@@ -1,6 +1,6 @@
 <?php
 
-namespace Denpa\Bitcoin;
+namespace znycloud\Bitcoin;
 
 use Psr\Http\Message\StreamInterface;
 
