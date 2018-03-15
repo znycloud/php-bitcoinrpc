@@ -1,6 +1,6 @@
 <?php
 
-namespace znycloud\Bitcoin;
+namespace znycloud\BitZeny;
 
 use Psr\Http\Message\StreamInterface;
 
