@@ -1,6 +1,6 @@
 <?php
 
-namespace Denpa\BitZeny\Exceptions;
+namespace znycloud\BitZeny\Exceptions;
 
 use RuntimeException;
 
