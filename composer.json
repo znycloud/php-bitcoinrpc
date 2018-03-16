@@ -3,7 +3,7 @@
 	"type": "library",
 	"description": "BitZeny JSON-RPC client based on GuzzleHttp",
 	"keywords": ["bitzeny","api","jsonrpc","guzzle"],
-	"homepage": "https://github.com/znycloudmusic/php-bitzenyrpc",
+	"homepage": "https://github.com/znycloud/php-bitzenyrpc",
     "license": "MIT",
     "authors": [
         {
