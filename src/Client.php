@@ -265,7 +265,7 @@ class Client
     }
 
     /**
-     * Converts amount from satoshi to bitcoin.
+     * Converts amount from satoshi to BitZeny.
      *
      * @param int $amount
      *
@@ -277,7 +277,7 @@ class Client
     }
 
     /**
-     * Converts amount from bitcoin to satoshi.
+     * Converts amount from BitZeny to satoshi.
      *
      * @param float $amount
      *

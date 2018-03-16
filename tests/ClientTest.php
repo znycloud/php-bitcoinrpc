@@ -36,9 +36,9 @@ class ClientTest extends TestCase
     {
         $bitzenyd = new BitZeny\Client($url);
 
-        $this->assertInstanceOf(BitZeny\Client::class, $bitcoind);
+        $this->assertInstanceOf(BitZeny\Client::class, $bitzenyd);
 
-        $base_uri = $bitcoind->getConfig('base_uri');
+        $base_uri = $bitzenyd->getConfig('base_uri');
 
         $this->assertEquals($base_uri->getScheme(), $scheme);
         $this->assertEquals($base_uri->getHost(), $host);
@@ -90,18 +90,18 @@ class ClientTest extends TestCase
     public function testClientSetterGetter()
     {
         $bitzenyd = new BitZeny\Client('http://old_client.org');
-        $this->assertInstanceOf(BitZeny\Client::class, $bitcoind);
+        $this->assertInstanceOf(BitZeny\Client::class, $bitzenyd);
 
-        $base_uri = $bitcoind->getConfig('base_uri');
+        $base_uri = $bitzenyd->getConfig('base_uri');
         $this->assertEquals($base_uri->getHost(), 'old_client.org');
 
-        $oldClient = $bitcoind->getClient();
+        $oldClient = $bitzenyd->getClient();
         $this->assertInstanceOf(\GuzzleHttp\Client::class, $oldClient);
 
         $newClient = new \GuzzleHttp\Client(['base_uri' => 'http://new_client.org']);
         $bitzenyd->setClient($newClient);
 
-        $base_uri = $bitcoind->getConfig('base_uri');
+        $base_uri = $bitzenyd->getConfig('base_uri');
         $this->assertEquals($base_uri->getHost(), 'new_client.org');
     }
 
@@ -114,13 +114,13 @@ class ClientTest extends TestCase
     {
         $bitzenyd = new BitZeny\Client();
 
-        $this->assertEquals(null, $bitcoind->getConfig('ca'));
+        $this->assertEquals(null, $bitzenyd->getConfig('ca'));
 
         $bitzenyd = new BitZeny\Client([
             'ca' => __FILE__,
         ]);
 
-        $this->assertEquals(__FILE__, $bitcoind->getConfig('verify'));
+        $this->assertEquals(__FILE__, $bitzenyd->getConfig('verify'));
     }
 
     /**
@@ -134,7 +134,7 @@ class ClientTest extends TestCase
             $this->getBlockResponse(),
         ]);
 
-        $response = $this->bitcoind
+        $response = $this->bitzenyd
             ->setClient($guzzle)
             ->request(
                 'getblockheader',
@@ -156,7 +156,7 @@ class ClientTest extends TestCase
         ]);
 
         $onFulfilled = $this->mockCallable([
-            $this->callback(function (Bitcoin\BitcoindResponse $response) {
+            $this->callback(function (BitZeny\bitzenydResponse $response) {
                 return $response->get() == self::$getBlockResponse;
             }),
         ]);
@@ -185,7 +185,7 @@ class ClientTest extends TestCase
             $this->getBlockResponse(),
         ]);
 
-        $response = $this->bitcoind
+        $response = $this->bitzenyd
             ->setClient($guzzle)
             ->getBlockHeader(
                 '000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f'
@@ -206,7 +206,7 @@ class ClientTest extends TestCase
         ]);
 
         $onFulfilled = $this->mockCallable([
-            $this->callback(function (Bitcoin\BitcoindResponse $response) {
+            $this->callback(function (BitZeny\bitzenydResponse $response) {
                 return $response->get() == self::$getBlockResponse;
             }),
         ]);
@@ -224,11 +224,11 @@ class ClientTest extends TestCase
     }
 
     /**
-     * Test bitcoind exception.
+     * Test bitzenyd exception.
      *
      * @return void
      */
-    public function testBitcoindException()
+    public function testbitzenydException()
     {
         $guzzle = $this->mockGuzzle([
             $this->rawTransactionError(200),
@@ -241,19 +241,19 @@ class ClientTest extends TestCase
                     '4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b'
                 );
 
-            $this->expectException(Exceptions\BitcoindException::class);
-        } catch (Exceptions\BitcoindException $e) {
+            $this->expectException(Exceptions\bitzenydException::class);
+        } catch (Exceptions\bitzenydException $e) {
             $this->assertEquals(self::$rawTransactionError['message'], $e->getMessage());
             $this->assertEquals(self::$rawTransactionError['code'], $e->getCode());
         }
     }
 
     /**
-     * Test async bitcoind exception.
+     * Test async bitzenyd exception.
      *
      * @return void
      */
-    public function testAsyncBitcoindException()
+    public function testAsyncbitzenydException()
     {
         $guzzle = $this->mockGuzzle([
             $this->rawTransactionError(200),
@@ -291,13 +291,13 @@ class ClientTest extends TestCase
         ]);
 
         try {
-            $this->bitcoind
+            $this->bitzenyd
                 ->setClient($guzzle)
                 ->getRawTransaction(
                     '4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b'
                 );
 
-            $this->expectException(Exceptions\BitcoindException::class);
+            $this->expectException(Exceptions\bitzenydException::class);
         } catch (Exceptions\BitZenydException $exception) {
             $this->assertEquals(
                 self::$rawTransactionError['message'],
@@ -322,13 +322,13 @@ class ClientTest extends TestCase
         ]);
 
         $onRejected = $this->mockCallable([
-            $this->callback(function (Exceptions\BitcoindException $exception) {
+            $this->callback(function (Exceptions\bitzenydException $exception) {
                 return $exception->getMessage() == self::$rawTransactionError['message'] &&
                     $exception->getCode() == self::$rawTransactionError['code'];
             }),
         ]);
 
-        $promise = $this->bitcoind
+        $promise = $this->bitzenyd
             ->setClient($guzzle)
             ->requestAsync(
                 'getrawtransaction',
@@ -354,7 +354,7 @@ class ClientTest extends TestCase
         ]);
 
         try {
-            $response = $this->bitcoind
+            $response = $this->bitzenyd
                 ->setClient($guzzle)
                 ->getRawTransaction(
                     '4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b'
@@ -388,7 +388,7 @@ class ClientTest extends TestCase
             }),
         ]);
 
-        $promise = $this->bitcoind
+        $promise = $this->bitzenyd
             ->setClient($guzzle)
             ->requestAsync(
                 'getrawtransaction',
@@ -414,14 +414,14 @@ class ClientTest extends TestCase
         ]);
 
         try {
-            $response = $this->bitcoind
+            $response = $this->bitzenyd
                 ->setClient($guzzle)
                 ->getRawTransaction(
                     '4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b'
                 );
 
-            $this->expectException(Exceptions\BitcoindException::class);
-        } catch (Exceptions\BitcoindException $exception) {
+            $this->expectException(Exceptions\bitzenydException::class);
+        } catch (Exceptions\bitzenydException $exception) {
             $this->assertEquals(
                 self::$rawTransactionError['message'],
                 $exception->getMessage()
@@ -447,13 +447,13 @@ class ClientTest extends TestCase
         ]);
 
         $onRejected = $this->mockCallable([
-            $this->callback(function (Exceptions\BitcoindException $exception) {
+            $this->callback(function (Exceptions\bitzenydException $exception) {
                 return $exception->getMessage() == self::$rawTransactionError['message'] &&
                     $exception->getCode() == self::$rawTransactionError['code'];
             }),
         ]);
 
-        $promise = $this->bitcoind
+        $promise = $this->bitzenyd
             ->setClient($guzzle)
             ->requestAsync(
                 'getrawtransaction',
@@ -479,7 +479,7 @@ class ClientTest extends TestCase
         ]);
 
         try {
-            $response = $this->bitcoind
+            $response = $this->bitzenyd
                 ->setClient($guzzle)
                 ->getRawTransaction(
                     '4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b'
@@ -515,7 +515,7 @@ class ClientTest extends TestCase
             }),
         ]);
 
-        $promise = $this->bitcoind
+        $promise = $this->bitzenyd
             ->setClient($guzzle)
             ->requestAsync(
                 'getrawtransaction',
@@ -531,19 +531,19 @@ class ClientTest extends TestCase
 
     public function testToBtc()
     {
-        $this->assertEquals(0.00005849, Bitcoin\Client::toBtc(310000 / 53));
+        $this->assertEquals(0.00005849, BitZeny\Client::toBtc(310000 / 53));
     }
 
     public function testToSatoshi()
     {
-        $this->assertEquals(5849, Bitcoin\Client::toSatoshi(0.00005849));
+        $this->assertEquals(5849, BitZeny\Client::toSatoshi(0.00005849));
     }
 
     public function testToFixed()
     {
-        $this->assertSame('1', Bitcoin\Client::toFixed(1.2345678910, 0));
-        $this->assertSame('1.23', Bitcoin\Client::toFixed(1.2345678910, 2));
-        $this->assertSame('1.2345', Bitcoin\Client::toFixed(1.2345678910, 4));
-        $this->assertSame('1.23456789', Bitcoin\Client::toFixed(1.2345678910, 8));
+        $this->assertSame('1', BitZeny\Client::toFixed(1.2345678910, 0));
+        $this->assertSame('1.23', BitZeny\Client::toFixed(1.2345678910, 2));
+        $this->assertSame('1.2345', BitZeny\Client::toFixed(1.2345678910, 4));
+        $this->assertSame('1.23456789', BitZeny\Client::toFixed(1.2345678910, 8));
     }
 }

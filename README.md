@@ -20,9 +20,9 @@ use znycloud\BitZeny\Client as BitZenyClient;
 
 $bitzenyd = new BitZenyClient('http://rpcuser:rpcpassword@localhost:9253/');
 ```
-or use array to define your bitcoind settings
+or use array to define your bitzenyd settings
 ```php
-use Denpa\Bitcoin\Client as BitcoinClient;
+use znycloud\BitZeny\Client as BitZenyClient;
 
 $bitzenyd = new BitZenyClient([
     'scheme' => 'http',                 // optional, default http
@@ -33,7 +33,7 @@ $bitzenyd = new BitZenyClient([
     'ca'     => '/etc/ssl/ca-cert.pem'  // optional, for use with https scheme
 ]);
 ```
-Then call methods defined in [BitZeny Core API Documentation](https://bitcoin.org/en/developer-reference#bitcoin-core-apis) with magic:
+Then call methods defined in [BitZeny Core API Documentation](https://BitZeny.org/en/developer-reference#BitZeny-core-apis) with magic:
 ```php
 /**
  * Get block info.
@@ -111,7 +111,7 @@ $txid = $result->get();
 ```
 or requestAsync method for asynchronous calls:
 ```php
-use Denpa\BitZeny\BitZenydResponse;
+use znycloud\BitZeny\BitZenydResponse;
 
 $promise = $bitzenyd->requestAsync(
     'getBlock',

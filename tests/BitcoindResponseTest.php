@@ -16,7 +16,7 @@ class BitZenydResponseTest extends TestCase
         parent::setUp();
 
         $this->guzzleResponse = $this->getBlockResponse();
-        $this->response = Bitcoin\BitcoindResponse::createFrom($this->guzzleResponse);
+        $this->response = BitZeny\bitzenydResponse::createFrom($this->guzzleResponse);
         $this->response = $this->response->withHeader('X-Test', 'test');
     }
 
@@ -35,7 +35,7 @@ class BitZenydResponseTest extends TestCase
 
     public function testNoResult()
     {
-        $response = Bitcoin\BitcoindResponse::createFrom(
+        $response = BitZeny\bitzenydResponse::createFrom(
             $this->rawTransactionError()
         );
 
@@ -64,15 +64,15 @@ class BitZenydResponseTest extends TestCase
     {
         $guzzleResponse = $this->getBlockResponse();
 
-        $response = Bitcoin\BitcoindResponse::createFrom($guzzleResponse);
+        $response = BitZeny\bitzenydResponse::createFrom($guzzleResponse);
 
-        $this->assertInstanceOf(Bitcoin\BitcoindResponse::class, $response);
+        $this->assertInstanceOf(BitZeny\bitzenydResponse::class, $response);
         $this->assertEquals($response->response(), $guzzleResponse);
     }
 
     public function testError()
     {
-        $response = Bitcoin\BitcoindResponse::createFrom(
+        $response = BitZeny\bitzenydResponse::createFrom(
             $this->rawTransactionError()
         );
 
@@ -352,7 +352,7 @@ class BitZenydResponseTest extends TestCase
     public function testSerialize()
     {
         $serializedContainer = serialize($this->response->getContainer());
-        $class = Bitcoin\BitcoindResponse::class;
+        $class = BitZeny\bitzenydResponse::class;
 
         $serialized = sprintf(
             'C:%u:"%s":%u:{%s}',

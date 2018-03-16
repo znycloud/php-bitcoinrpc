@@ -96,7 +96,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
      */
     protected function mockGuzzle(array $queue = [])
     {
-        $handler = $this->bitcoind->getConfig('handler');
+        $handler = $this->bitzenyd->getConfig('handler');
 
         if ($handler) {
             $handler->setHandler(new MockHandler($queue));
@@ -154,7 +154,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
             return new RequestException(
                 'test',
                 $request,
-                Bitcoin\BitcoindResponse::createFrom($this->rawTransactionError())
+                BitZeny\bitzenydResponse::createFrom($this->rawTransactionError())
             );
         };
 
